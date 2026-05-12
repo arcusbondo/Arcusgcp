@@ -1,0 +1,10 @@
+{
+    "name": "Mon Serveur",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "customizations": {
+        "codespaces": {
+            "openPorts": [22, 443, 8080]
+        }
+    },
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y openssh-server && sudo service ssh start"
+}
