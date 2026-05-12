@@ -1,5 +1,9 @@
-name: V2Ray_Server_6h
-on: [workflow_dispatch]
+name: V2Ray_Auto_Restart
+on:
+  workflow_dispatch: # Permet de le lancer manuellement
+  schedule:
+    - cron: '0 */6 * * *' # Se relance automatiquement toutes les 6 heures
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -7,4 +11,6 @@ jobs:
       - name: Install V2Ray
         run: |
           bash <(curl -L https://raw.githubusercontent.com/v2fly/fscript/master/fscript.sh)
-          sleep 21600
+          # On laisse tourner 5h50 (21000 sec) pour laisser le temps au job de se fermer proprement
+          sleep 21000 
+
