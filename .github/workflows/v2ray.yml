@@ -1,31 +1,7 @@
-name: V2Ray_Fix_127
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Preparation du systeme
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl wget
-
-      - name: Installation et Lancement
-        run: |
-          # Utilisation du script officiel de v2fly
-          bash <(curl -L https://raw.githubusercontent.com/v2fly/fscript/master/fscript.sh)
-          
-          # Verification si v2ray est bien installé pour eviter l'erreur 127
-          if command -v v2ray &> /dev/null; then
-              echo "V2Ray installe avec succes"
-              v2ray run & 
-              sleep 21000
-          else
-              echo "Erreur : L'installation a echoue, le binaire v2ray est introuvable."
-              exit 1
-          fi
-
-
+- uses: google-github-actions/auth@v1
+  with:
+    credentials_json: ${{ secrets.GCP_SA_KEY }}
+- uses: google-github-actions/deploy-cloudrun@v1
+  with:
+    service: v2ray-service
+    image: gcr.io/votre-projet/v2ray
